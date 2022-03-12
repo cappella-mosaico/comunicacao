@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+
+  api:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+    image: jcrud
+    restart: always
+    ports:
+      - '8080:8080'
+
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+#    I might not need a port configuration here because the docker-compose
+#    already allows the other containers to access postgres' default CONTAINER_PORT, right?
+#    ports:
+#      - '8081:5432'

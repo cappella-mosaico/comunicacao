@@ -14,6 +14,7 @@ public class HelloResource {
     @GET
     @Produces("text/plain")
     public String hello() {
+        System.out.println("HELLO");
         var employee = new Employee();
         employee.setFirstName("Ruither");
         employee.setLastName("Borba");
@@ -26,6 +27,7 @@ public class HelloResource {
         entityManager.close();
         entityManagerFactory.close();
 
+        System.out.println("WORLD");
         return "Hello, World! " + employee.getId();
     }
 }
