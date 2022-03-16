@@ -1,33 +1,25 @@
 package com.javacrud.javacrud;
 
-import entity.Employee;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import com.javacrud.services.EmployeeService;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 @Path("/hello-world")
 public class HelloResource {
+
+    @Inject
+    private EmployeeService employeeService;
+    @Inject
+    private KafkaService kafkaService;
+
     @GET
     @Produces("text/plain")
     public String hello() {
-        System.out.println("HELLO");
-        var employee = new Employee();
-        employee.setFirstName("Ruither");
-        employee.setLastName("Borba");
-
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(employee);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        entityManagerFactory.close();
-
-        System.out.println("WORLD");
+        var employee = employeeService.generateNew();
+        kafkaService.notifyEvent(employee.getFirstName() + " - " + employee.getId());
         return "Hello, World! " + employee.getId();
     }
 }
