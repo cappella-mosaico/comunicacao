@@ -14,8 +14,7 @@ import java.util.Properties;
 
 public class App {
     private final static String TOPIC = "pastorais";
-    private final static String INTERNAL_KAFKA_LISTENER = "kafka:9092";
-//    private final String INTERNAL_KAFKA_LISTENER = "localhost:29092";
+    private final static String INTERNAL_KAFKA_LISTENER = "localhost:29092";
 
     public static void main(String[] args) {
         Properties properties = new Properties();
@@ -25,7 +24,6 @@ public class App {
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, PastoralDeserializer.class.getName());
 
         try (final KafkaConsumer<String, Pastoral> consumer = new KafkaConsumer<>(properties)) {
-            String TOPIC = "pastorais";
             consumer.subscribe(Collections.singletonList(TOPIC));
 
             while (true) {
@@ -33,7 +31,7 @@ public class App {
                 for (ConsumerRecord<String, Pastoral> record : records) {
                     String key = record.key();
                     Pastoral value = record.value();
-                    System.out.printf("key = %s, value = %s%n", key, value);
+                    System.out.println("WE HAVE RECEIVED YOUR MESSAGE SIR, PLEASE STOP ASKING US TO CONFIRM " + key + " " + value);
                 }
             }
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 # pull official base image
-FROM postgres:12.9
+FROM openjdk:11-jdk
 
-# run init.sql
-ADD init.sql /docker-entrypoint-initdb.d
+COPY ./target/comunicacao-1.0-SNAPSHOT.jar /comunicacao.jar
+
+CMD ["java", "-jar", "/comunicacao.jar"]
