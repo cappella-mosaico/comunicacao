@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
+import services.NotificationService;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -32,6 +33,7 @@ public class App {
                     String key = record.key();
                     Pastoral value = record.value();
                     System.out.println("WE HAVE RECEIVED YOUR MESSAGE SIR, PLEASE STOP ASKING US TO CONFIRM " + key + " " + value);
+                    new NotificationService().sendPush(value.toString());
                 }
             }
         } catch (Exception e) {
