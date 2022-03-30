@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class NotificationService {
 
-    public void sendPush(String notification) {
+    public int sendPush(String notification) {
         try {
             String jsonResponse;
 
@@ -25,7 +25,7 @@ public class NotificationService {
             String strJsonBody = "{"
                     + "\"app_id\": \"97bc067c-2344-4a86-a6b1-0206f51df4e9\","
                     + "\"included_segments\": [\"Subscribed Users\"],"
-                    + "\"data\": {\"foo\": " + notification + "},"
+                    + "\"data\": {\"foo\": \"" + notification + "\"},"
                     + "\"contents\": {\"en\": \"English Message\"}"
                     + "}";
 
@@ -52,10 +52,11 @@ public class NotificationService {
                 scanner.close();
             }
             System.out.println("jsonResponse:\n" + jsonResponse);
-
+            return httpResponse;
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        return 0;
     }
 
 }
