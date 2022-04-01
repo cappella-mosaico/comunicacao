@@ -25,8 +25,8 @@ public class NotificationService {
             String strJsonBody = "{"
                     + "\"app_id\": \"97bc067c-2344-4a86-a6b1-0206f51df4e9\","
                     + "\"included_segments\": [\"Subscribed Users\"],"
-                    + "\"data\": {\"foo\": \"" + notification + "\"},"
-                    + "\"contents\": {\"en\": \"English Message\"}"
+//                    + "\"data\": {\"foo\": \"" + notification + "\"},"
+                    + "\"contents\": {\"en\": \"" + notification + "\"}"
                     + "}";
 
 

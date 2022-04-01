@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 import services.NotificationService;
 
+import java.net.HttpURLConnection;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NotificationServiceTest {
@@ -9,8 +11,8 @@ public class NotificationServiceTest {
 
     @Test
     public void testSendPush() {
-        int HTTP_OK_RESPONSE = 200;
-        assertEquals(HTTP_OK_RESPONSE, service.sendPush("Testing " + Math.random()));
+        assertEquals(HttpURLConnection.HTTP_OK,
+                service.sendPush("Testing " + Math.random()));
     }
 
 }
