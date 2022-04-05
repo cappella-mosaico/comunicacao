@@ -11,6 +11,7 @@ public class Pastoral {
     private String titulo;
     private String autor;
     private String descricao;
+    private Boolean notificado;
 
     public Integer getId() {
         return id;
@@ -42,6 +43,14 @@ public class Pastoral {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Boolean getNotificado() {
+        return notificado;
+    }
+
+    public void setNotificado(Boolean notificado) {
+        this.notificado = notificado;
     }
 
     @Override
