@@ -10,7 +10,7 @@ public class NotificationServiceTest {
 
     private NotificationService service = new NotificationService();
 
-//    @Test
+    @Test
     public void testSendPush() {
         Pastoral pastoral = new Pastoral();
         pastoral.setTitulo("Titulo de Teste");
