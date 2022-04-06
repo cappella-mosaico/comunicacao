@@ -1,5 +1,7 @@
 package services;
 
+import entities.Pastoral;
+
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -8,7 +10,10 @@ import java.util.Scanner;
 
 public class NotificationService {
 
-    public int sendPush(String notification) {
+    private static final String APP_ID = System.getenv("ONE_SIGNAL_APP_ID");
+    private static final String APP_KEY = System.getenv("ONE_SIGNAL_APP_KEY");
+
+    public int sendPush(Pastoral pastoral) {
         try {
             String jsonResponse;
 
@@ -19,18 +24,15 @@ public class NotificationService {
             con.setDoInput(true);
 
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("Authorization", "Basic NTgwOTNjYmEtNGZjYi00ZGYyLThmMTktMGM5MzdiNzRkZDkz");
+            con.setRequestProperty("Authorization", "Basic " + APP_KEY);
             con.setRequestMethod("POST");
 
             String strJsonBody = "{"
-                    + "\"app_id\": \"97bc067c-2344-4a86-a6b1-0206f51df4e9\","
+                    + "\"app_id\":\"" + APP_ID + "\","
                     + "\"included_segments\": [\"Subscribed Users\"],"
-//                    + "\"data\": {\"foo\": \"" + notification + "\"},"
-                    + "\"contents\": {\"en\": \"" + notification + "\"}"
-                    + "}";
-
-
-            System.out.println("strJsonBody:\n" + strJsonBody);
+                    + "\"heading\": {\"en\": \"Nova Pastoral:" + pastoral.getTitulo() + "\"},"
+                    + "\"contents\": {\"en\": \"por: " + pastoral.getAutor() + "\"},"
+                    + "\"web_url\": \"https://cappella.meteorapp.com/\"}";
 
             byte[] sendBytes = strJsonBody.getBytes(StandardCharsets.UTF_8);
             con.setFixedLengthStreamingMode(sendBytes.length);

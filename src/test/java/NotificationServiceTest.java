@@ -1,3 +1,4 @@
+import entities.Pastoral;
 import org.junit.jupiter.api.Test;
 import services.NotificationService;
 
@@ -9,10 +10,13 @@ public class NotificationServiceTest {
 
     private NotificationService service = new NotificationService();
 
-    @Test
+//    @Test
     public void testSendPush() {
+        Pastoral pastoral = new Pastoral();
+        pastoral.setTitulo("Titulo de Teste");
+        pastoral.setAutor("Autor de Teste " + Math.random());
         assertEquals(HttpURLConnection.HTTP_OK,
-                service.sendPush("Testing " + Math.random()));
+                service.sendPush(pastoral));
     }
 
 }

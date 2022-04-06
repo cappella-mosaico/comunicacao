@@ -33,7 +33,7 @@ public class App {
                     String key = record.key();
                     Pastoral value = record.value();
                     System.out.println("WE HAVE RECEIVED YOUR MESSAGE SIR, PLEASE STOP ASKING US TO CONFIRM " + key + " " + value);
-                    new NotificationService().sendPush(value.toString());
+                    new NotificationService().sendPush(value);
                 }
             }
         } catch (Exception e) {
