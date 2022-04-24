@@ -13,7 +13,7 @@ public class NotificationService {
     private static final String APP_ID = System.getenv("ONE_SIGNAL_APP_ID");
     private static final String APP_KEY = System.getenv("ONE_SIGNAL_APP_KEY");
 
-    public int sendPush(Pastoral pastoral) {
+    public int sendPush(Pastoral pastoral, String heading) {
         try {
             String jsonResponse;
 
@@ -30,7 +30,7 @@ public class NotificationService {
             String strJsonBody = "{"
                     + "\"app_id\":\"" + APP_ID + "\","
                     + "\"included_segments\": [\"Subscribed Users\"],"
-                    + "\"headings\": {\"en\": \"Nova Pastoral:" + pastoral.getTitulo() + "\"},"
+                    + "\"headings\": {\"en\": \"" + heading +":" + pastoral.getTitulo() + "\"},"
                     + "\"contents\": {\"en\": \"por: " + pastoral.getAutor() + "\"},"
                     + "\"web_url\": \"https://cappella.meteorapp.com/\"}";
 

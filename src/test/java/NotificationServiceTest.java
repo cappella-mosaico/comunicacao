@@ -16,7 +16,7 @@ public class NotificationServiceTest {
         pastoral.setTitulo("Titulo de Teste");
         pastoral.setAutor("Autor de Teste " + Math.random());
         assertEquals(HttpURLConnection.HTTP_OK,
-                service.sendPush(pastoral));
+                service.sendPush(pastoral, "Nova Pastoral"));
     }
 
 }
