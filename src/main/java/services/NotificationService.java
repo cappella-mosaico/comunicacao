@@ -30,7 +30,7 @@ public class NotificationService {
             String strJsonBody = "{"
                     + "\"app_id\":\"" + APP_ID + "\","
                     + "\"included_segments\": [\"Subscribed Users\"],"
-                    + "\"headings\": {\"en\": \"" + heading +":" + pastoral.getTitulo() + "\"},"
+                    + "\"headings\": {\"en\": \"" + heading +": " + pastoral.getTitulo() + "\"},"
                     + "\"contents\": {\"en\": \"por: " + pastoral.getAutor() + "\"},"
                     + "\"web_url\": \"https://cappella.meteorapp.com/\"}";
 
