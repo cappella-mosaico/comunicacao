@@ -1,7 +1,7 @@
 package kafka;
 
-import entities.Pastoral;
-import entities.PastoralDeserializer;
+import entities.RelatorioFinanceiro;
+import entities.RelatorioFinanceiroDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -13,40 +13,37 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-public class NewPastoralConsumer extends Thread {
+public class NewRelatorioFinanceiroConsumer extends Thread {
 
   private static final String APP_ID = System.getenv("ONE_SIGNAL_APP_ID");
-  private final static String TOPIC = "novas-pastorais";
+  private final static String TOPIC = "novo-relatorio-financeiro";
   private final static String INTERNAL_KAFKA_LISTENER = "localhost:29092";
 
   @Override
   public void run() {
     Properties properties = new Properties();
     properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, INTERNAL_KAFKA_LISTENER);
-    properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "ConsumerPastorais");
+    properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "ConsumerRelatoriosFinanceiros");
     properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class.getName());
-    properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, PastoralDeserializer.class.getName());
+    properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, RelatorioFinanceiroDeserializer.class.getName());
 
-    try (final KafkaConsumer<String, Pastoral> consumer = new KafkaConsumer<>(properties)) {
+    try (final KafkaConsumer<String, RelatorioFinanceiro> consumer = new KafkaConsumer<>(properties)) {
       consumer.subscribe(Collections.singletonList(TOPIC));
 
       while (true) {
-        ConsumerRecords<String, Pastoral> records = consumer.poll(Duration.ofMillis(1000));
-        for (ConsumerRecord<String, Pastoral> record : records) {
+        ConsumerRecords<String, RelatorioFinanceiro> records = consumer.poll(Duration.ofMillis(1000));
+        for (ConsumerRecord<String, RelatorioFinanceiro> record : records) {
           String key = record.key();
-          Pastoral value = record.value();
+          RelatorioFinanceiro value = record.value();
           String strJsonBody = "{"
               + "\"app_id\":\"" + APP_ID + "\","
               + "\"included_segments\": [\"Subscribed Users\"],"
-              + "\"headings\": {\"en\": \"Nova Pastoral: " + value.getTitulo() + "\"},"
-              + "\"contents\": {\"en\": \"por: " + value.getAutor() + "\"},"
+              + "\"headings\": {\"en\": \"Atualização Financeira\"},"
+              + "\"contents\": {\"en\": \"área de finanças atualizada com balanço de " + value.getAnoMes() + "\"},"
               + "\"web_url\": \"https://cappella.meteorapp.com/\"}";
           new NotificationService().sendPush(strJsonBody);
         }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("Failed to initialize Consumer for Novas PASTORAIS");
     }
   }
 

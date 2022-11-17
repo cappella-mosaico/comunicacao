@@ -15,6 +15,7 @@ import java.util.Properties;
 
 public class LembretePastoralConsumer extends Thread {
 
+  private static final String APP_ID = System.getenv("ONE_SIGNAL_APP_ID");
   private final static String TOPIC = "lembretes-pastorais";
   private final static String INTERNAL_KAFKA_LISTENER = "localhost:29092";
 
@@ -34,8 +35,13 @@ public class LembretePastoralConsumer extends Thread {
         for (ConsumerRecord<String, Pastoral> record : records) {
           String key = record.key();
           Pastoral value = record.value();
-          System.out.println("THIS IS A SIMPLE REMINDER " + key + " " + value);
-          new NotificationService().sendPush(value, "Pastoral de Hoje");
+          String strJsonBody = "{"
+              + "\"app_id\":\"" + APP_ID + "\","
+              + "\"included_segments\": [\"Subscribed Users\"],"
+              + "\"headings\": {\"en\": \"Pastoral de Hoje: " + value.getTitulo() + "\"},"
+              + "\"contents\": {\"en\": \"por: " + value.getAutor() + "\"},"
+              + "\"web_url\": \"https://cappella.meteorapp.com/\"}";
+          new NotificationService().sendPush(strJsonBody);
         }
       }
     } catch (Exception e) {

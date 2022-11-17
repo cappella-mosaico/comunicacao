@@ -13,7 +13,7 @@ public class NotificationService {
     private static final String APP_ID = System.getenv("ONE_SIGNAL_APP_ID");
     private static final String APP_KEY = System.getenv("ONE_SIGNAL_APP_KEY");
 
-    public int sendPush(Pastoral pastoral, String heading) {
+    public int sendPush(String strJsonBody) {
         try {
             String jsonResponse;
 
@@ -27,13 +27,6 @@ public class NotificationService {
             con.setRequestProperty("Authorization", "Basic " + APP_KEY);
             con.setRequestMethod("POST");
 
-            String strJsonBody = "{"
-                    + "\"app_id\":\"" + APP_ID + "\","
-                    + "\"included_segments\": [\"Subscribed Users\"],"
-                    + "\"headings\": {\"en\": \"" + heading +": " + pastoral.getTitulo() + "\"},"
-                    + "\"contents\": {\"en\": \"por: " + pastoral.getAutor() + "\"},"
-                    + "\"web_url\": \"https://cappella.meteorapp.com/\"}";
-
             byte[] sendBytes = strJsonBody.getBytes(StandardCharsets.UTF_8);
             con.setFixedLengthStreamingMode(sendBytes.length);
 
@@ -41,19 +34,13 @@ public class NotificationService {
             outputStream.write(sendBytes);
 
             int httpResponse = con.getResponseCode();
-            System.out.println("httpResponse: " + httpResponse);
 
-            if (httpResponse >= HttpURLConnection.HTTP_OK
-                    && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-                Scanner scanner = new Scanner(con.getInputStream(), StandardCharsets.UTF_8);
-                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                scanner.close();
-            } else {
-                Scanner scanner = new Scanner(con.getErrorStream(), StandardCharsets.UTF_8);
-                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                scanner.close();
-            }
-            System.out.println("jsonResponse:\n" + jsonResponse);
+            Scanner scanner = new Scanner(httpResponse >= HttpURLConnection.HTTP_OK && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST 
+                                            ? con.getInputStream() 
+                                            : con.getErrorStream(), 
+                                          StandardCharsets.UTF_8);            ;
+            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+            scanner.close();
             return httpResponse;
         } catch (Throwable t) {
             t.printStackTrace();
