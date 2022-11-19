@@ -32,7 +32,7 @@ public class NotificationService {
 
             OutputStream outputStream = con.getOutputStream();
             outputStream.write(sendBytes);
-
+            System.out.println("Sending Push " + strJsonBody);
             int httpResponse = con.getResponseCode();
 
             Scanner scanner = new Scanner(httpResponse >= HttpURLConnection.HTTP_OK && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST 

@@ -8,7 +8,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import services.NotificationService;
-
+import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
@@ -35,11 +35,12 @@ public class NewRelatorioFinanceiroConsumer extends Thread {
         for (ConsumerRecord<String, RelatorioFinanceiro> record : records) {
           String key = record.key();
           RelatorioFinanceiro value = record.value();
+          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
           String strJsonBody = "{"
               + "\"app_id\":\"" + APP_ID + "\","
               + "\"included_segments\": [\"Subscribed Users\"],"
               + "\"headings\": {\"en\": \"Atualização Financeira\"},"
-              + "\"contents\": {\"en\": \"área de finanças atualizada com balanço de " + value.getAnoMes() + "\"},"
+              + "\"contents\": {\"en\": \"área de finanças atualizada com balanço de " + formatter.format(value.getAnoMes()) + "\"},"
               + "\"web_url\": \"https://cappella.meteorapp.com/\"}";
           new NotificationService().sendPush(strJsonBody);
         }

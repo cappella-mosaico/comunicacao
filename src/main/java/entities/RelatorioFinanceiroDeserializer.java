@@ -5,13 +5,14 @@ import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
 
 import java.nio.charset.StandardCharsets;
+import factories.ObjectMapperFactory;
 
 public class RelatorioFinanceiroDeserializer implements Deserializer<RelatorioFinanceiro> {
 
     @Override
     public RelatorioFinanceiro deserialize(String s, byte[] bytes) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapperFactory().getInstance();
             return mapper.readValue(new String(bytes, StandardCharsets.UTF_8.name()), RelatorioFinanceiro.class);
         } catch (Exception e) {
             e.printStackTrace();
