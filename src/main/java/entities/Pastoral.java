@@ -14,6 +14,7 @@ public class Pastoral {
     private String autor;
     private String descricao;
     private Boolean notificado;
+    private String pequenoTitulo;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -25,6 +26,9 @@ public class Pastoral {
     public void setDescricao(String descricao) { this.descricao = descricao; }
     public Boolean getNotificado() { return notificado; }
     public void setNotificado(Boolean notificado) { this.notificado = notificado; }
+    public String getPequenoTitulo() { return pequenoTitulo; }
+    public void setPequenoTitulo(String pequenoTitulo) { this.pequenoTitulo = pequenoTitulo; }
+
 
     @Override
     public String toString() {
@@ -36,6 +40,7 @@ public class Pastoral {
                 "titulo='" + titulo + '\'' +
                 ", autor='" + autor + '\'' +
                 ", descricao='" + desc + '\'' +
+                ", pequenoTitulo='" + pequenoTitulo + '\'' +
                 '}';
     }
 }
